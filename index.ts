@@ -9,7 +9,7 @@
  * @Last Modified time: 2016-12-09 18:21:07
  */
 
-const IDGenCharacters = '23456789abdegjkmnpqrvwxyz';
+const IDGenCharacters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ';
 const IDGenCharactersLength = IDGenCharacters.length;
 export function generateID(length: number) {
   let id = '';
@@ -39,53 +39,19 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     this.postReducer = options.postReducer || null;
   }
 
-  createAction<ACTIONTYPE extends Object>(options: {
+  createAction<ACTIONTYPE>(options: {
     type?: string,
     action: () => ACTIONTYPE,
     reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
   }) : () => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A>(options: {
-    type?: string,
-    action: (a: A) => ACTIONTYPE,
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
-  }) : (a: A) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A, B>(options: {
+  createAction<ACTIONTYPE, ACTIONPARAM>(options: {
     type?: string, 
-    action: (a: A, b: B) => ACTIONTYPE, 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
-  }) : (a: A, b: B) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A, B, C>(options: {
-    type?: string, 
-    action: (a: A, b: B, c: C) => ACTIONTYPE, 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
-  }) : (a: A, b: B, c: C) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A, B, C, D>(options: {
-    type?: string, 
-    action: (a: A, b: B, c: C, d: D) => ACTIONTYPE, 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
-  }) : (a: A, b: B, c: C, d: D) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A, B, C, D, E>(options: {
-    type?: string, 
-    action: (a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE, 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
-  }) : (a: A, b: B, c: C, d: D, e: E) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE extends Object, A, B, C, D, E, F>(options: {
-    type?: string, 
-    action: ((a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE)
+    action: ((a: ACTIONPARAM) => ACTIONTYPE)
             | (() => ACTIONTYPE)
-            | ((a: A) => ACTIONTYPE)
-            | ((a: A, b: B) => ACTIONTYPE)
-            | ((a: A, b: B, c: C) => ACTIONTYPE)
-            | ((a: A, b: B, c: C, d: D) => ACTIONTYPE)
-            | ((a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE), 
+            | ((a: ACTIONPARAM) => ACTIONTYPE), 
     reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
   }) : (() => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) 
-     | ((a: A) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) 
-     | ((a: A, b: B) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
-     | ((a: A, b: B, c: C) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
-     | ((a: A, b: B, c: C, d: D) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
-     | ((a: A, b: B, c: C, d: D, e: E) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
-     | ((a: A, b: B, c: C, d: D, e: E, f: F) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) {
+     | ((a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) {
     
     if (this.reducerCreated) throw new Error("createAction may only be called before createReducer.");
 
@@ -116,53 +82,8 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    } else if (action.arguments.length === 1) {
-      return (a: A) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
-        return {
-          ...actionResult, 
-          type: type,
-          ...(actionExtraData() as any)
-        };
-      };
-    } else if (action.arguments.length === 2) {
-      return (a: A, b: B) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
-        return {
-          ...actionResult, 
-          type: type,
-          ...(actionExtraData() as any)
-        };
-      };
-    } else if (action.arguments.length === 3) {
-      return (a: A, b: B, c: C) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
-        return {
-          ...actionResult, 
-          type: type,
-          ...(actionExtraData() as any)
-        };
-      };
-    } else if (action.arguments.length === 4) {
-      return (a: A, b: B, c: C, d: D) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
-        return {
-          ...actionResult, 
-          type: type,
-          ...(actionExtraData()as any)
-        };
-      };
-    } else if (action.arguments.length === 5) {
-      return (a: A, b: B, c: C, d: D, e: E) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
-        return {
-          ...actionResult, 
-          type: type,
-          ...(actionExtraData() as any)
-        };
-      };
-    } else if (action.arguments.length === 6) {
-      return (a: A, b: B, c: C, d: D, e: E, f: F) => {
+    } else if (action.arguments.length >= 1) {
+      return (a: ACTIONPARAM) => {
         const actionResult = (<() => ACTIONTYPE>action)() as any;
         return {
           ...actionResult, 

@@ -9,6 +9,10 @@ Key features
 - support for a method to be called to add extra 'module global' data to actions, useful for adding timing.
 - fully typed actions and reducers specific to the individual action!
 
+Limitations
+
+ - Actions accept only one or no argument. To pass multiple arguments, use an object. Hoping for [variadic kinds](https://github.com/Microsoft/TypeScript/issues/5453) to be supported by TypeScript so I can change this.
+
 ## Installation
 
 ```shell
@@ -64,6 +68,9 @@ export const addTodo = module.createAction({
   // and will share the same types.
   action: (todo: string) => {
     return {
+      // generateID is just a basic alphanumeric random string generator used within
+      // the module class for automatic type name creation, it's exported if you want
+      // to use it selsewhere for simple string generation
       id: generateID(7),
       task: todo,
     };
