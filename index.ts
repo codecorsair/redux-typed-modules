@@ -46,9 +46,12 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
   }) : () => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
   createAction<ACTIONTYPE, ACTIONPARAM>(options: {
     type?: string, 
-    action: ((a: ACTIONPARAM) => ACTIONTYPE)
-            | (() => ACTIONTYPE)
-            | ((a: ACTIONPARAM) => ACTIONTYPE), 
+    action:(a: ACTIONPARAM) => ACTIONTYPE, 
+    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+  createAction<ACTIONTYPE, ACTIONPARAM>(options: {
+    type?: string, 
+    action: (() => ACTIONTYPE) | ((a: ACTIONPARAM) => ACTIONTYPE), 
     reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : (() => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) 
      | ((a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) {
