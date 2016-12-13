@@ -6,7 +6,9 @@
         "outDir": ".",
         "sourceMap": false,
         "declaration": true,
-        "module": "commonjs"
+        "module": "commonjs",
+        "alwaysStrict": false,
+        "noImplicitUseStrict": true
     },
     "formatCodeOptions": {
         "indentSize": 2,

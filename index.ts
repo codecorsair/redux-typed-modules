@@ -6,7 +6,7 @@
  * @Author: JB (jb@codecorsair.com)
  * @Date: 2016-12-09 14:42:59
  * @Last Modified by: JB (jb@codecorsair.com)
- * @Last Modified time: 2016-12-09 18:21:07
+ * @Last Modified time: 2016-12-13 17:08:46
  */
 
 const IDGenCharacters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ';
@@ -21,7 +21,7 @@ export function generateID(length: number) {
 }
 
 export class Module<STATETYPE, ACTIONEXTRADATA> {
-  actionDefs: {[id: string]: (state: STATETYPE, action: any) => Partial<STATETYPE>};
+  actionDefs: {[id: string]: (state: STATETYPE, action: any) => Partial<STATETYPE>} = {};
 
   initialState: STATETYPE;
   actionExtraData: () => ACTIONEXTRADATA;
@@ -46,7 +46,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
   }) : () => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
   createAction<ACTIONTYPE, ACTIONPARAM>(options: {
     type?: string, 
-    action:(a: ACTIONPARAM) => ACTIONTYPE, 
+    action: (a: ACTIONPARAM) => ACTIONTYPE, 
     reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : (a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
   createAction<ACTIONTYPE, ACTIONPARAM>(options: {
@@ -76,7 +76,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
 
     const actionExtraData = this.actionExtraData;
 
-    if (action.arguments.length === 0) {
+    if (action.length == 0) {
       return () => {
         const actionResult = (<() => ACTIONTYPE>action)() as any;
         return {
@@ -85,9 +85,9 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    } else if (action.arguments.length >= 1) {
+    } else if (action.length >= 1) {
       return (a: ACTIONPARAM) => {
-        const actionResult = (<() => ACTIONTYPE>action)() as any;
+        const actionResult = (<(a: ACTIONPARAM) => ACTIONTYPE>action)(a) as any;
         return {
           ...actionResult, 
           type: type,
