@@ -11,7 +11,7 @@ Key features
 
 Limitations
 
- - Actions accept only one or no argument. To pass multiple arguments, use an object. Hoping for [variadic kinds](https://github.com/Microsoft/TypeScript/issues/5453) to be supported by TypeScript so I can change this.
+- Actions accept only one or no argument. To pass multiple arguments, use an object. Hoping for [variadic kinds](https://github.com/Microsoft/TypeScript/issues/5453) to be supported by TypeScript so I can change this.
 
 ## Installation
 
@@ -81,13 +81,15 @@ export const addTodo = module.createAction({
   // merged with {type: string} & the return of actionExtraData If
   // that method is defined on the constructor options
   //
+  // The return of the reducer can be a partial state, this will be
+  // merged with the existing state behind the scenes.
+  //
   // This removes any bleedthrough of types from other actions to help
   // prevent any confusion or misuse of action properties typical when
   // being forced to use a module global action interface.
   reducer: (state, action) => {
     return {
-      ...s,
-      todos: s.todos.set(a.id, {
+      todos: state.todos.set(a.id, {
         id: a.id,
         task: a.task
       })
@@ -105,7 +107,6 @@ export const removeTodo = module.createAction({
 
   reducer: (s, a) => {
     return {
-      ...s,
       todos: s.todos.remove(a.id)
     };
   }

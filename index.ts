@@ -21,7 +21,7 @@ export function generateID(length: number) {
 }
 
 export class Module<STATETYPE, ACTIONEXTRADATA> {
-  actionDefs: {[id: string]: (state: STATETYPE, action: any) => STATETYPE};
+  actionDefs: {[id: string]: (state: STATETYPE, action: any) => Partial<STATETYPE>};
 
   initialState: STATETYPE;
   actionExtraData: () => ACTIONEXTRADATA;
@@ -42,14 +42,14 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
   createAction<ACTIONTYPE>(options: {
     type?: string,
     action: () => ACTIONTYPE,
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
+    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : () => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
   createAction<ACTIONTYPE, ACTIONPARAM>(options: {
     type?: string, 
     action: ((a: ACTIONPARAM) => ACTIONTYPE)
             | (() => ACTIONTYPE)
             | ((a: ACTIONPARAM) => ACTIONTYPE), 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Readonly<STATETYPE>,
+    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : (() => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) 
      | ((a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) {
     
@@ -101,13 +101,19 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
       return (state: STATETYPE = this.initialState, action: {type: string}) => {
         let def = this.actionDefs[action.type];
         if (typeof def === 'undefined' || def === null) return state;
-        return def(state, action);
+        return {
+          ...(state as any),
+          ...(def(state, action) as any)
+        };
       };
     } else {
       return (state: STATETYPE = this.initialState, action: {type: string}) => {
         let def = this.actionDefs[action.type];
         if (typeof def === 'undefined' || def === null) return state;
-        return postReducer(def(state, action));
+        return postReducer({
+          ...(state as any),
+          ...(def(state, action) as any)
+        });
       };
     }
   }
