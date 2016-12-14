@@ -1,6 +1,6 @@
 # redux-typed-modules
 
-Based on the [ducks-modular-redux / Redux modules](https://github.com/erikras/ducks-modular-redux) pattern, this library provides a simple, developer friendly, method for defining strongly typed modules in a pattern that will integrate seemlessly into projects currently following the Redux modules pattern.
+Based on the [ducks-modular-redux / Redux modules](https://github.com/erikras/ducks-modular-redux) pattern, this library provides a simple, developer friendly, method for defining strongly typed modules in a pattern that will integrate seamlessly into projects currently following the Redux modules pattern.
 
 Key features
 
