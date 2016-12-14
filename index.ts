@@ -20,6 +20,9 @@ export function generateID(length: number) {
   return id;
 }
 
+// a global list of module names to ensure unique generated action type names across modules.
+const globalModuleIDs: {[id: string]: string} = {};
+
 export class Module<STATETYPE, ACTIONEXTRADATA> {
   actionDefs: {[id: string]: (state: STATETYPE, action: any) => Partial<STATETYPE>} = {};
 
@@ -29,6 +32,8 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
 
   reducerCreated: boolean = false;
 
+  moduleID: string;
+
   constructor(options: {
     initialState: STATETYPE,
     actionExtraData?: () => ACTIONEXTRADATA,
@@ -37,6 +42,16 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     this.initialState = options.initialState;
     this.actionExtraData = options.actionExtraData || (() => { return {} as ACTIONEXTRADATA;});
     this.postReducer = options.postReducer || null;
+
+    // generate a unique id for this module.
+    this.moduleID = generateID(6);
+    let retryCount = 10;
+    while (typeof globalModuleIDs[this.moduleID] !== 'undefined' && --retryCount >= 0) {
+      this.moduleID = generateID(6);
+    }
+    // extremely unlikely to ever happen
+    if (typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error('failed to generate a unique module id');
+    globalModuleIDs[this.moduleID] = this.moduleID;
   }
 
   createAction<ACTIONTYPE>(options: {
@@ -63,14 +78,14 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
 
     if (typeof type === 'undefined') {
       // generate a type 
-      type = generateID(6);
+      type = this.moduleID + '/' + generateID(6);
       let retry = 10;
-      while (typeof this.actionDefs[type] != 'undefined' && --retry >= 0) {
-        type = generateID(6);
+      while (typeof this.actionDefs[type] !== 'undefined' && --retry >= 0) {
+        type = this.moduleID + '/' + generateID(6);
       }
     }
 
-    if (typeof this.actionDefs[type] != 'undefined') throw new Error('duplicate type name provided to createAction or type name generation failed to generate a unique type name');
+    if (typeof this.actionDefs[type] !== 'undefined') throw new Error('duplicate type name provided to createAction or type name generation failed to generate a unique type name');
 
     this.actionDefs[type] = reducer;
 
