@@ -11,7 +11,7 @@ Key features
 
 Limitations
 
-- Actions accept only one or no argument. To pass multiple arguments, use an object. Hoping for [variadic kinds](https://github.com/Microsoft/TypeScript/issues/5453) to be supported by TypeScript so I can change this.
+- Actions accept up to seven arguments to allow for strong typing, if you need more, I recomment passing all arguments under a single object.
 
 ## Installation
 

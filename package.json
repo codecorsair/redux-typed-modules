@@ -1,6 +1,6 @@
 {
   "name": "redux-typed-modules",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A library for defining strongly typed Redux reducers without the boilerplate normally required with TypeScript.",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -25,13 +25,14 @@
     "package.json",
     "LICENSE",
     "index.js",
-    "index.d.ts"
+    "index.d.ts",
+    "README.md"
   ],
   "bugs": {
     "url": "https://github.com/codecorsair/redux-typed-modules/issues"
   },
   "homepage": "https://github.com/codecorsair/redux-typed-modules#readme",
   "devDependencies": {
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.5"
   }
 }

@@ -6,7 +6,7 @@
  * @Author: JB (jb@codecorsair.com)
  * @Date: 2016-12-09 14:42:59
  * @Last Modified by: JB (jb@codecorsair.com)
- * @Last Modified time: 2016-12-13 17:08:46
+ * @Last Modified time: 2017-01-18 12:10:02
  */
 
 const IDGenCharacters = 'abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ';
@@ -54,26 +54,81 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     globalModuleIDs[this.moduleID] = this.moduleID;
   }
 
+  // no action params
   createAction<ACTIONTYPE>(options: {
     type?: string,
     action: () => ACTIONTYPE,
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : () => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE, ACTIONPARAM>(options: {
+  
+  // action params
+  createAction<ACTIONTYPE, A>(options: {
     type?: string, 
-    action: (a: ACTIONPARAM) => ACTIONTYPE, 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
-  }) : (a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
-  createAction<ACTIONTYPE, ACTIONPARAM>(options: {
+    action: (a: A) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B>(options: {
     type?: string, 
-    action: (() => ACTIONTYPE) | ((a: ACTIONPARAM) => ACTIONTYPE), 
-    reducer: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+    action: (a: A, b: B) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B, C>(options: {
+    type?: string, 
+    action: (a: A, b: B, c: C) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B, c: C) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B, C, D>(options: {
+    type?: string, 
+    action: (a: A, b: B, c: C, d: D) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B, c: C, d: D) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B, C, D, E>(options: {
+    type?: string, 
+    action: (a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B, c: C, d: D, e: E) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B, C, D, E, F>(options: {
+    type?: string, 
+    action: (a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B, c: C, d: D, e: E, f: F) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  createAction<ACTIONTYPE, A, B, C, D, E, F, G>(options: {
+    type?: string, 
+    action: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => ACTIONTYPE, 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
+  }) : (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>;
+
+  // combined
+  createAction<ACTIONTYPE, A, B, C, D, E, F, G>(options: {
+    type?: string, 
+    action: (() => ACTIONTYPE) 
+            | ((a: A) => ACTIONTYPE) 
+            | ((a: A, b: B, c: C) => ACTIONTYPE)
+            | ((a: A, b: B, c: C, d: D) => ACTIONTYPE)
+            | ((a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE)
+            | ((a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE)
+            | ((a: A, b: B, c: C, d: D, e: E, f: F, g: G) => ACTIONTYPE), 
+    reducer?: (state: Readonly<STATETYPE>, action: Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) => Partial<STATETYPE>,
   }) : (() => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) 
-     | ((a: ACTIONPARAM) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>) {
+     | ((a: A) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B, c: C) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B, c: C, d: D) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B, c: C, d: D, e: E) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B, c: C, d: D, e: E, f: F) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+     | ((a: A, b: B, c: C, d: D, e: E, f: F, g: G) => Readonly<ACTIONTYPE & {type: string} & ACTIONEXTRADATA>)
+  {
     
     if (this.reducerCreated) throw new Error("createAction may only be called before createReducer.");
 
     const {action, reducer} = options;
+
     let type = options.type;
 
     if (typeof type === 'undefined') {
@@ -87,7 +142,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
 
     if (typeof this.actionDefs[type] !== 'undefined') throw new Error('duplicate type name provided to createAction or type name generation failed to generate a unique type name');
 
-    this.actionDefs[type] = reducer;
+    this.actionDefs[type] = reducer || function(s, a) { return <Partial<STATETYPE>>{}; };
 
     const actionExtraData = this.actionExtraData;
 
@@ -100,16 +155,70 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    } else if (action.length >= 1) {
-      return (a: ACTIONPARAM) => {
-        const actionResult = (<(a: ACTIONPARAM) => ACTIONTYPE>action)(a) as any;
+    } else if (action.length === 1) {
+      return (a: A) => {
+        const actionResult = (<(a: A) => ACTIONTYPE>action)(a) as any;
         return {
           ...actionResult, 
           type: type,
           ...(actionExtraData() as any)
         };
       };
-    }
+    }  else if (action.length === 1) {
+      return (a: A, b: B) => {
+        const actionResult = (<(a: A, b: B) => ACTIONTYPE>action)(a, b) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    }  else if (action.length === 1) {
+      return (a: A, b: B, c: C) => {
+        const actionResult = (<(a: A, b: B, c: C) => ACTIONTYPE>action)(a, b, c) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    }  else if (action.length === 1) {
+      return (a: A, b: B, c: C, d: D) => {
+        const actionResult = (<(a: A, b: B, c: C, d: D) => ACTIONTYPE>action)(a, b, c, d) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    }  else if (action.length === 1) {
+      return (a: A, b: B, c: C, d: D, e: E) => {
+        const actionResult = (<(a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE>action)(a, b, c, d, e) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    }  else if (action.length === 1) {
+      return (a: A, b: B, c: C, d: D, e: E, f: F) => {
+        const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE>action)(a, b, c, d, e, f) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    }  else if (action.length === 1) {
+      return (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => {
+        const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F, g: G) => ACTIONTYPE>action)(a, b, c, d, e, f, g) as any;
+        return {
+          ...actionResult, 
+          type: type,
+          ...(actionExtraData() as any)
+        };
+      };
+    } 
   }
 
   createReducer() {
