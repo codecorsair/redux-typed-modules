@@ -149,6 +149,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     if (action.length == 0) {
       return () => {
         const actionResult = (<() => ACTIONTYPE>action)() as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -158,6 +167,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     } else if (action.length === 1) {
       return (a: A) => {
         const actionResult = (<(a: A) => ACTIONTYPE>action)(a) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -167,6 +185,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B) => {
         const actionResult = (<(a: A, b: B) => ACTIONTYPE>action)(a, b) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -176,6 +203,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B, c: C) => {
         const actionResult = (<(a: A, b: B, c: C) => ACTIONTYPE>action)(a, b, c) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -185,6 +221,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B, c: C, d: D) => {
         const actionResult = (<(a: A, b: B, c: C, d: D) => ACTIONTYPE>action)(a, b, c, d) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -194,6 +239,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B, c: C, d: D, e: E) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE>action)(a, b, c, d, e) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -203,6 +257,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B, c: C, d: D, e: E, f: F) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE>action)(a, b, c, d, e, f) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
@@ -212,6 +275,15 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     }  else if (action.length === 1) {
       return (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F, g: G) => ACTIONTYPE>action)(a, b, c, d, e, f, g) as any;
+        if (typeof actionResult === 'function') {
+          return (dispatch: (action: any) => any, state: STATETYPE) => {
+            return {
+              ...(actionResult(dispatch, state) as any),
+              type: type,
+              ...(actionExtraData() as any)
+            }
+          }
+        }
         return {
           ...actionResult, 
           type: type,
