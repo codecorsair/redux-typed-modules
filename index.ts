@@ -182,7 +182,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 2) {
       return (a: A, b: B) => {
         const actionResult = (<(a: A, b: B) => ACTIONTYPE>action)(a, b) as any;
         if (typeof actionResult === 'function') {
@@ -200,7 +200,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 3) {
       return (a: A, b: B, c: C) => {
         const actionResult = (<(a: A, b: B, c: C) => ACTIONTYPE>action)(a, b, c) as any;
         if (typeof actionResult === 'function') {
@@ -218,7 +218,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 4) {
       return (a: A, b: B, c: C, d: D) => {
         const actionResult = (<(a: A, b: B, c: C, d: D) => ACTIONTYPE>action)(a, b, c, d) as any;
         if (typeof actionResult === 'function') {
@@ -236,7 +236,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 5) {
       return (a: A, b: B, c: C, d: D, e: E) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E) => ACTIONTYPE>action)(a, b, c, d, e) as any;
         if (typeof actionResult === 'function') {
@@ -254,7 +254,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 6) {
       return (a: A, b: B, c: C, d: D, e: E, f: F) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F) => ACTIONTYPE>action)(a, b, c, d, e, f) as any;
         if (typeof actionResult === 'function') {
@@ -272,7 +272,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
           ...(actionExtraData() as any)
         };
       };
-    }  else if (action.length === 1) {
+    }  else if (action.length === 7) {
       return (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => {
         const actionResult = (<(a: A, b: B, c: C, d: D, e: E, f: F, g: G) => ACTIONTYPE>action)(a, b, c, d, e, f, g) as any;
         if (typeof actionResult === 'function') {
