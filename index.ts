@@ -144,6 +144,9 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
       while (typeof this.actionDefs[type] !== 'undefined' && --retry >= 0) {
         type = this.moduleID + '/' + generateID(6);
       }
+    } else if (type.indexOf('/') === 0) {
+      // When the type name starts with a "/", we assume we want to prepend the module name.
+      type = this.moduleID + type;
     }
 
     if (typeof this.actionDefs[type] !== 'undefined') throw new Error('duplicate type name provided to createAction or type name generation failed to generate a unique type name');
