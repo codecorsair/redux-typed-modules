@@ -35,6 +35,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
   moduleID: string;
 
   constructor(options: {
+    moduleID?: string,
     initialState: STATETYPE,
     actionExtraData?: () => ACTIONEXTRADATA,
     postReducer?: (state: STATETYPE) => STATETYPE,
@@ -42,15 +43,20 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     this.initialState = options.initialState;
     this.actionExtraData = options.actionExtraData || (() => { return {} as ACTIONEXTRADATA;});
     this.postReducer = options.postReducer || null;
+    this.moduleID = options.moduleID || null;
+
+    if (this.moduleID && typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error(`Module name "${this.moduleID}" is not unique.`);
 
     // generate a unique id for this module.
-    this.moduleID = generateID(6);
-    let retryCount = 10;
-    while (typeof globalModuleIDs[this.moduleID] !== 'undefined' && --retryCount >= 0) {
+    if (!this.moduleID) {
       this.moduleID = generateID(6);
+      let retryCount = 10;
+      while (typeof globalModuleIDs[this.moduleID] !== 'undefined' && --retryCount >= 0) {
+        this.moduleID = generateID(6);
+      }
+      // extremely unlikely to ever happen
+      if (typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error('failed to generate a unique module id');
     }
-    // extremely unlikely to ever happen
-    if (typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error('failed to generate a unique module id');
     globalModuleIDs[this.moduleID] = this.moduleID;
   }
 
