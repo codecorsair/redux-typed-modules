@@ -35,6 +35,7 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
   moduleID: string;
 
   constructor(options: {
+    moduleID?: string,
     initialState: STATETYPE,
     actionExtraData?: () => ACTIONEXTRADATA,
     postReducer?: (state: STATETYPE) => STATETYPE,
@@ -42,15 +43,20 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
     this.initialState = options.initialState;
     this.actionExtraData = options.actionExtraData || (() => { return {} as ACTIONEXTRADATA;});
     this.postReducer = options.postReducer || null;
+    this.moduleID = options.moduleID || null;
+
+    if (this.moduleID && typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error(`Module name "${this.moduleID}" is not unique.`);
 
     // generate a unique id for this module.
-    this.moduleID = generateID(6);
-    let retryCount = 10;
-    while (typeof globalModuleIDs[this.moduleID] !== 'undefined' && --retryCount >= 0) {
+    if (!this.moduleID) {
       this.moduleID = generateID(6);
+      let retryCount = 10;
+      while (typeof globalModuleIDs[this.moduleID] !== 'undefined' && --retryCount >= 0) {
+        this.moduleID = generateID(6);
+      }
+      // extremely unlikely to ever happen
+      if (typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error('failed to generate a unique module id');
     }
-    // extremely unlikely to ever happen
-    if (typeof globalModuleIDs[this.moduleID] !== 'undefined') throw new Error('failed to generate a unique module id');
     globalModuleIDs[this.moduleID] = this.moduleID;
   }
 
@@ -138,6 +144,9 @@ export class Module<STATETYPE, ACTIONEXTRADATA> {
       while (typeof this.actionDefs[type] !== 'undefined' && --retry >= 0) {
         type = this.moduleID + '/' + generateID(6);
       }
+    } else if (type.indexOf('/') === 0) {
+      // When the type name starts with a "/", we assume we want to prepend the module name.
+      type = this.moduleID + type;
     }
 
     if (typeof this.actionDefs[type] !== 'undefined') throw new Error('duplicate type name provided to createAction or type name generation failed to generate a unique type name');
