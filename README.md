@@ -1,4 +1,6 @@
 # redux-typed-modules
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcodecorsair%2Fredux-typed-modules.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcodecorsair%2Fredux-typed-modules?ref=badge_shield)
+
 
 Based on the [ducks-modular-redux / Redux modules](https://github.com/erikras/ducks-modular-redux) pattern, this library provides a simple, developer friendly, method for defining strongly typed modules in a pattern that will integrate seamlessly into projects currently following the Redux modules pattern.
 
@@ -159,3 +161,7 @@ ReactDom.render(
 );
 
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcodecorsair%2Fredux-typed-modules.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcodecorsair%2Fredux-typed-modules?ref=badge_large)
